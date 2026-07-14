@@ -271,8 +271,7 @@ if args.character_list:
         try:
             chars += char_set[letter]
         except KeyError:
-            print("Letter '%s' does not represent a valid character list."
-                  % letter)
+            print(f"Letter '{letter}' does not represent a valid character list.")
             sys.exit()
 
 # "-l" not used, but "-u" is set
@@ -479,13 +478,13 @@ class KeyHandler:
         elif kp == ord('a'):
             args.asynchronous = not args.asynchronous
             on_off = 'on' if args.asynchronous else 'off'
-            self.stat.update('Async: %s' % on_off, self.delay)
+            self.stat.update(f'Async: {on_off}', self.delay)
         elif kp == ord('b'):
             self.cycle_bold()
         elif kp == ord('f'):
             args.flashers = not args.flashers
             on_off = 'on' if args.flashers else 'off'
-            self.stat.update('Flash: %s' % on_off, self.delay)
+            self.stat.update(f'Flash: {on_off}', self.delay)
         elif kp == ord('o'):
             self.toggle_status()
 
@@ -562,13 +561,13 @@ class KeyHandler:
         self.bg = colors_str[name.lower()]
         curses.init_pair(1, self.fg, self.bg)
         curses.init_pair(2, curses.COLOR_WHITE, self.bg)
-        self.stat.update('BG: %s' % name, self.delay)
+        self.stat.update(f'BG: {name}', self.delay)
 
     def show_speed(self):
         """
         Display current speed (-999 to 100) when it is changed by keypress
         """
-        self.stat.update('Speed: %d' % (100 - self.delay // 10), self.delay)
+        self.stat.update(f'Speed: {100 - self.delay // 10}', self.delay)
 
     def toggle_status(self):
         """
@@ -576,7 +575,7 @@ class KeyHandler:
         """
         args.status_off = not args.status_off
         on_off = 'off' if args.status_off else 'on'
-        self.stat.update('Status: %s' % on_off, self.delay)
+        self.stat.update(f'Status: {on_off}', self.delay)
 
 
 class Writer:
