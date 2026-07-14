@@ -26,6 +26,7 @@
 
 import argparse
 import curses
+import sys
 import time
 from random import choice, randint
 
@@ -214,7 +215,7 @@ args = parser.parse_args()
 
 if args.help:
     print(help_msg)
-    exit()
+    sys.exit()
 
 char_set = {
 
@@ -272,7 +273,7 @@ if args.character_list:
         except KeyError:
             print("Letter '%s' does not represent a valid character list."
                   % letter)
-            exit()
+            sys.exit()
 
 # "-l" not used, but "-u" is set
 elif args.custom_characters:
@@ -281,6 +282,11 @@ elif args.custom_characters:
 # Neither "-l" nor "-u" has been set, use default characters
 else:
     chars = char_set['m']
+
+if not chars:
+    print("Selected character set is empty. If using 'u' in --character-list, "
+          "also pass --custom-characters with a non-empty string.")
+    sys.exit()
 
 if args.no_bold:
     args.all_bold = False
@@ -469,7 +475,7 @@ class KeyHandler:
         if kp == -1:
             return False
         elif kp == ord(" ") or kp == ord("q") or kp == 27:  # 27 = ESC
-            exit()
+            sys.exit()
         elif kp == ord('a'):
             args.asynchronous = not args.asynchronous
             on_off = 'on' if args.asynchronous else 'off'
@@ -683,7 +689,7 @@ def _main(screen):
         # Loop to draw the green rain
         while not canvas.size_changed:
             if runtime and time.time() - starttime > runtime:
-                exit()
+                sys.exit()
             # Catch keypress
             if key.get():
                 continue
@@ -732,7 +738,7 @@ def _main(screen):
 
             if args.single_wave:
                 if len(canvas.nodes) == 0 and wave_delay < 0:
-                    exit()
+                    sys.exit()
                 wave_delay -= 1
 
             # End of loop, refresh screen
