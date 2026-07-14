@@ -764,7 +764,7 @@ def _main(screen):
                 async_clock = 5
 
 
-def main():
+def main():  # pylint: disable=missing-function-docstring
     # Wrapper to allow CTRL-C to exit smoothly:
     try:
         curses.wrapper(_main)
