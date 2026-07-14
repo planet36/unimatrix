@@ -257,11 +257,11 @@ start_color = colors_str[args.color]
 start_bg = colors_str[args.bg_color]
 
 speed = args.speed
-start_delay = (100 - speed) * 10
+start_delay = min(max((100 - speed) * 10, 0), 10990)
 
 runtime = None
 
-if args.time:
+if args.time is not None:
     runtime = args.time
 
 # "-l" option has been used
@@ -468,7 +468,7 @@ class KeyHandler:
         Handles key presses. Returns True if a key was found, False otherwise.
         """
         if args.ignore_keyboard:
-            return False;
+            return False
 
         kp = self.screen.getch()
 
@@ -688,7 +688,7 @@ def _main(screen):
         async_clock = 5
         # Loop to draw the green rain
         while not canvas.size_changed:
-            if runtime and time.time() - starttime > runtime:
+            if runtime is not None and time.time() - starttime > runtime:
                 sys.exit()
             # Catch keypress
             if key.get():
